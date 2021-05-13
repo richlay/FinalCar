@@ -3,7 +3,12 @@
 
 Servo servo_ESC;
 Servo servo_CarDirection;
+/*
 Servo servo_Yaw;
+*/
+
+// servo_CarDirection calibration
+int CarDir_cali = 0;
 
 void setup() {
   //MPU6050 Setup
@@ -11,17 +16,19 @@ void setup() {
   Wire.begin();
   setupMPU();
 
-  //ESC Setup(SkyWalker50A + XXD2700KV +4S)
-  servo_ESC.attach(9,700,2400);  // min=544, max=2400                             //看要不要改成ESC.attach(9,1000,2000);  然後之後用ESC.write(0~180) 或 int speed,pulse_width;  pulse_width=map(speed,0,100,1000,2000); ESC.writeMicroseconds(pulse_width);
-  servo_ESC.writeMicroseconds(700);  // Set the throttle position to 0         //需要視情況更改
+  //ESC Setup(SkyWalker50A + XXD2700KV + 4S Li-Po battery)
+  servo_ESC.attach(9,700,2400);  // default <Servo.h> settings are: min=544, max=2400
+  servo_ESC.writeMicroseconds(700);  // Set the throttle position to 0
 
   //CarDirection Setup(MG996R)
   servo_CarDirection.attach(10);
-  servo_CarDirection.write(90);
+  servo_CarDirection.write(90+CarDir_cali);
 
+/*
   //Yaw Setup(MG996R)
-  servo_Yaw.attach(11,1000,2000);         //尚未驗證
-  servo_Yaw.write(90);                    //尚未驗證
+  servo_Yaw.attach(11,1000,2000);
+  servo_Yaw.write(90);
+*/
 
   //IR(linear style)
   pinMode(2,INPUT);
