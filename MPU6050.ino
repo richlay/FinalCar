@@ -1,5 +1,6 @@
 long accelX_raw, accelY_raw, accelZ_raw;
 float accelX_g, accelY_g, accelZ_g;
+float offsetX, offsetY, offsetZ;
 
 void setupMPU(){
   Wire.beginTransmission(0b1101000); //This is the I2C address of the MPU (b1101000/b1101001 for AC0 low/high datasheet sec. 9.2)
@@ -17,10 +18,12 @@ void setupMPU(){
   Wire.write(0b00000000); //Setting the accel to +/- 2g
   Wire.endTransmission(); 
 
+/*
   Wire.beginTransmission(0b1101000); //I2C address of the MPU
   Wire.write(0x1A); //Accessing the register 1A - Configuration (Sec. 4.3) 
   Wire.write(0b00000110); //Setting the  Digital Low Pass Filter (DLPF) to Accel bandwidth260 delay0 256 0.98
-  Wire.endTransmission(); 
+  Wire.endTransmission();
+*/ 
 }
 
 void recordAccelRegisters() {
@@ -92,11 +95,11 @@ void printData() {
   Serial.print(gyroZ_deg);
 
   Serial.print(" ");
-  Serial.print(2*(accelX_g-0.03));
+  Serial.print(2*(accelX_g-0.03),4);
   Serial.print(" ");
-  Serial.print(2*(accelY_g-0.78));
+  Serial.print(2*(accelY_g-0.78),4);
   Serial.print(" ");
-  Serial.print(2*(accelZ_g-0.2));
+  Serial.print(2*(accelZ_g-0.2),4);
   Serial.print(" ");
 //  Serial.println;
 }
@@ -169,4 +172,18 @@ double angularDistance() {
   
   previousAngularDistance = presentAngularDistance;
   return presentAngularVelocity;
+}
+
+double calibration(int caliTime) {
+  static int t = 0;
+  t = 0;
+  static int sum = 0;
+  sumX = 0;
+  while(t < caliTime) {
+    recordAccelRegisters();
+    sumX += accelX_raw;
+    t += 100;
+    delay(100);
+  }
+  return double(sumX) / (caliTime / 100);
 }
