@@ -1,4 +1,5 @@
 void fx_lineFollower() {
+  
   while(1) {
     fx_CarDirection(readLED()); //assuming max turning-degree = 35deg (one side)
   }
@@ -9,7 +10,7 @@ double readLED() {
   static unsigned long previousTime = 0;
   static unsigned long presentTime = 0;
   presentTime = millis();
-  static unsigned double deltaTime = 0;
+  static double deltaTime = 0;
   deltaTime = double(presentTime - previousTime)/1000.0;
   if(previousTime==0) {
     deltaTime = 0;
@@ -38,9 +39,11 @@ double readLED() {
 double PID(double error, double dT) {
   static double P = 17;
   static double I = 0.1;
-  static double P_term = P * error;
+  static double P_term = 0;
+  P_term = P * error;
   static double errorSum = 0;
   errorSum = errorSum + (error*dT);
-  static double I_term = I * errorSum;
+  static double I_term = 0;
+  I_term = I * errorSum;
   return (P_term + I_term);
 }
