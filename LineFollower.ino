@@ -95,7 +95,7 @@ void readFrontIR() {
 }
 
 void readBackIR() {
-  LED[2] = analogRead(A2);
+  LED[2] = analogRead(A0);
   if (LED[2] > 300) {
     LED[2] = 1;
   }
@@ -103,7 +103,7 @@ void readBackIR() {
     LED[2] = 0;
   }
   
-  LED[3] = analogRead(A3);
+  LED[3] = analogRead(A1);
   if (LED[3] > 300) {
     LED[3] = 1;
   }
@@ -111,7 +111,7 @@ void readBackIR() {
     LED[3] = 0;
   }
   
-  LED[4] = analogRead(A4);
+  LED[4] = analogRead(A2);
   if (LED[4] > 300) {
     LED[4] = 1;
   }
@@ -119,7 +119,7 @@ void readBackIR() {
     LED[4] = 0;
   }
   
-  LED[5] = analogRead(A5);
+  LED[5] = analogRead(A3);
   if (LED[5] > 300) {
     LED[5] = 1;
   }
