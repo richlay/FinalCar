@@ -8,13 +8,13 @@ Servo servo_Yaw;
 */
 
 // servo_CarDirection calibration
-int CarDir_cali = 0;
+int CarDir_cali = -5;
 
 void setup() {
   //MPU6050 Setup
-  Serial.begin(9600);
-  Wire.begin();
-  setupMPU();
+//  Serial.begin(9600);
+//  Wire.begin();
+//  setupMPU();
 
   //ESC Setup(SkyWalker50A + XXD2700KV + 4S Li-Po battery)
   servo_ESC.attach(9,700,2400);  // default <Servo.h> settings are: min=544, max=2400
@@ -40,10 +40,14 @@ void setup() {
 }
 
 void loop() {
-  recordAccelRegisters();
-  recordGyroRegisters();
-  printData();
-  Serial.println(velocity());
-  delay(100);
   
+//  recordAccelRegisters();
+//  recordGyroRegisters();
+//  printData();
+//  Serial.println(velocity());
+//  delay(100);
+
+  delay(5000);
+  servo_ESC.writeMicroseconds(800);
+  fx_lineFollower(2, 1, 1);
 }
