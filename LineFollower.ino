@@ -1,4 +1,5 @@
 int lineCount = 0;
+double turn_deg = 0;
 int LED[7] = {0};
 bool on_line = false;
 double LED_counts = 0;
@@ -7,7 +8,8 @@ double LEDxWeight = 0;
 void fx_lineFollower(int linesToCross, int followerSettings, int lineCountSettings) { //front=1, back=2
   lineCount = 0;
   while (lineCount <= linesToCross) {
-    fx_CarDirection( readLED(followerSettings, lineCountSettings) ); //assuming max turning-degree = 35deg (one side)
+    turn_deg = readLED(followerSettings, lineCountSettings);
+    fx_CarDirection(turn_deg); //assuming max turning-degree = 35deg (one side)
   }
 }
 
@@ -17,7 +19,7 @@ double readLED(int fs, int lcs) {
   static unsigned long presentTime = 0;
   presentTime = millis();
   static double deltaTime = 0;
-  deltaTime = double(presentTime - previousTime) / 1000.0;
+  deltaTime = (presentTime - previousTime) / 1000.0;
   if (previousTime == 0) {
     deltaTime = 0;
   }
@@ -63,7 +65,7 @@ double readLED(int fs, int lcs) {
     }
   }
   
-  return (LEDxWeight);
+  return LEDxWeight;
 }
 
 double PID(double error, double dT, int setting) {
