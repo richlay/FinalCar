@@ -177,7 +177,7 @@ double angularDistance() {
 double calibration(int caliTime) {
   static int t = 0;
   t = 0;
-  static int sum = 0;
+  static int sumX = 0;
   sumX = 0;
   while(t < caliTime) {
     recordAccelRegisters();
